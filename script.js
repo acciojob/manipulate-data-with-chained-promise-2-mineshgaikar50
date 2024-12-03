@@ -1,37 +1,32 @@
-//your JS code here. If required.
-
-// Function to simulate getting numbers with a promise
-function getNumbers() {
+function delayedNumbers() {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve([1, 2, 3, 4]); // Resolve the promise with the array after 3 seconds
+      resolve([1, 2, 3, 4]);
     }, 3000);
   });
 }
 
-// Add the logic for promise chaining
-getNumbers()
-  .then((numbers) => {
-    // First promise: Filter out odd numbers
+delayedNumbers()
+  .then(numbers => {
     return new Promise((resolve) => {
       setTimeout(() => {
-        const evenNumbers = numbers.filter(num => num % 2 === 0); // Keep even numbers
-        document.getElementById("output").innerText = evenNumbers.join(", ");
-        resolve(evenNumbers); // Pass even numbers to the next promise
-      }, 1000); // Wait 1 second before resolving
+        const evenNumbers = numbers.filter(num => num % 2 === 0);
+        console.log("Even numbers:", evenNumbers); // Log for debugging
+        document.getElementById("output").textContent = evenNumbers.join(", ");
+        resolve(evenNumbers);
+      }, 1000);
     });
   })
-  .then((evenNumbers) => {
-    // Second promise: Multiply even numbers by 2
+  .then(evenNumbers => {
     return new Promise((resolve) => {
       setTimeout(() => {
-        const doubledNumbers = evenNumbers.map(num => num * 2); // Double the numbers
-        document.getElementById("output").innerText = doubledNumbers.join(", ");
-        resolve(doubledNumbers); // Pass doubled numbers
-      }, 2000); // Wait 2 seconds before resolving
+        const doubledEvenNumbers = evenNumbers.map(num => num * 2);
+        console.log("Doubled even numbers:", doubledEvenNumbers); // Log for debugging
+        document.getElementById("output").textContent = doubledEvenNumbers.join(", ");
+        resolve(doubledEvenNumbers);
+      }, 2000);
     });
   })
-  .catch((error) => {
-    // Handle any errors
-    document.getElementById("output").innerText = `Error: ${error.message}`;
+  .catch(error => {
+    console.error("Error:", error);
   });
